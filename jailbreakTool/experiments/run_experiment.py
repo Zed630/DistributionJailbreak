@@ -138,14 +138,6 @@ def run_experiment(config_path: str):
 
     logger.info(f"实验输出目录: {exp_dir}")
 
-    """# 设置保存器
-    savor = Savor(config)
-    support_attacks = config["attack_methods"].keys()
-    model_list = [item["name"] for item in config["models"]["target_models"]]
-    now_attack_idx = config["checkpoint_info"]["attack_idx"] if config["load_chickpoint"] else 0
-    now_model_idx = config["checkpoint_info"]["model_idx"] if config["load_chickpoint"] else 0
-    now_case_idx = config["checkpoint_info"]["case_idx"] if config["load_chickpoint"] else 0"""
-
     # 设置随机种子
     if 'seed' in config['runtime']:
         import random
@@ -216,12 +208,3 @@ def run_experiment(config_path: str):
                 defender=defenders[provide_Defender] if defenders else None).to_dict()
             checkpoint_manager.attack_results.append(jailbreak_result)
             checkpoint_manager.write_result(os.path.join(exp_dir, "experiment_results.json"), jailbreak_result, config)
-
-    quit()
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='运行大语言模型越狱攻击实验')
-    parser.add_argument('--config', type=str, default='/Users/fushuangjie/project/jailbreakTool-Project/jailbreakTool/configs/config.yaml', help='实验配置文件路径')
-    args = parser.parse_args()
-
-    run_experiment(args.config) 
